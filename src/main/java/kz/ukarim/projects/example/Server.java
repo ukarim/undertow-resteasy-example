@@ -1,6 +1,7 @@
 package kz.ukarim.projects.example;
 
 import io.undertow.Undertow;
+import io.undertow.servlet.Servlets;
 import io.undertow.servlet.api.DeploymentInfo;
 import kz.ukarim.projects.example.api.ExampleApplication;
 import org.jboss.resteasy.plugins.server.undertow.UndertowJaxrsServer;
@@ -14,11 +15,14 @@ public class Server {
 
         ResteasyDeployment deployment = new ResteasyDeployment();
         deployment.setApplicationClass(ExampleApplication.class.getName());
+        deployment.setInjectorFactoryClass("org.jboss.resteasy.cdi.CdiInjectorFactory");
 
         DeploymentInfo deploymentInfo = server.undertowDeployment(deployment, "/");
         deploymentInfo.setClassLoader(Server.class.getClassLoader());
         deploymentInfo.setDeploymentName("Undertow + Resteasy example");
         deploymentInfo.setContextPath("/api");
+
+        deploymentInfo.addListener(Servlets.listener(org.jboss.weld.environment.servlet.Listener.class));
 
         server.deploy(deploymentInfo);
 
