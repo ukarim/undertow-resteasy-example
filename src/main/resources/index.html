@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <title>UndertowJaxrs server example</title>
+    <style>
+        #example {
+            text-align: center;
+            color: #565656;
+
+        }
+    </style>
+</head>
+<body>
+<h1 id="example">
+    Response from api
+</h1>
+<script>
+    var exampleEl = document.querySelector('#example');
+
+    var fetch = fetch('/api/example');
+
+    var textResponse = fetch.then(resp => resp.text());
+
+    textResponse.then(text => {
+        exampleEl.innerHTML = text;
+    });
+</script>
+</body>
+</html>
